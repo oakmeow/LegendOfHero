@@ -178,7 +178,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100008, guid: a7a72b1194f604817995d8161711622c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1833363919}
+    - targetCorrespondingSourceObject: {fileID: 100008, guid: a7a72b1194f604817995d8161711622c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1833363918}
   m_SourcePrefab: {fileID: 100100000, guid: a7a72b1194f604817995d8161711622c, type: 3}
 --- !u!1001 &247040121
 PrefabInstance:
@@ -191,6 +197,10 @@ PrefabInstance:
     - target: {fileID: 100090, guid: 13ef284d46b40400b9fbaac45615598b, type: 3}
       propertyPath: m_Name
       value: Tanker
+      objectReference: {fileID: 0}
+    - target: {fileID: 100090, guid: 13ef284d46b40400b9fbaac45615598b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400090, guid: 13ef284d46b40400b9fbaac45615598b, type: 3}
       propertyPath: m_LocalScale.x
@@ -447,6 +457,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ranger
       objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: 4cade42a731124516a850559995e1403, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400096, guid: 4cade42a731124516a850559995e1403, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.7
@@ -561,6 +575,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Soldier
       objectReference: {fileID: 0}
+    - target: {fileID: 100098, guid: 4ce960d9f26e348cd888930aa02e8dff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 4ce960d9f26e348cd888930aa02e8dff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.442104
@@ -606,6 +624,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ce960d9f26e348cd888930aa02e8dff, type: 3}
+--- !u!1 &1833363915 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100008, guid: a7a72b1194f604817995d8161711622c, type: 3}
+  m_PrefabInstance: {fileID: 118803543}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1833363918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833363915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720ebd2b0538e674a9f5c86539c9538f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+--- !u!143 &1833363919
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833363915}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.87, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
