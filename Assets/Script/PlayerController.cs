@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 10.0f;
     private CharacterController characterController;
 
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask;
     private Vector3 currentLookTarget = Vector3.zero;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction*500, Color.blue);
+        //Debug.DrawRay(ray.origin, ray.direction*500, Color.blue);
 
         if (Physics.Raycast(ray, out hit, 500, layerMask, QueryTriggerInteraction.Ignore))
         {
