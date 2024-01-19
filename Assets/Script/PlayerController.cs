@@ -28,6 +28,16 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isWalking", true);
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim.Play("DoubleChop");
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            anim.Play("SpinAttack");
+        }
+
         characterController.SimpleMove(moveDirection*moveSpeed);
     }
 
