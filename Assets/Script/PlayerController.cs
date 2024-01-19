@@ -10,13 +10,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     private Vector3 currentLookTarget = Vector3.zero;
 
+    private Animator anim;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
     }
     void Update()
     {
         Vector3 moveDirection = new Vector3(-Input.GetAxis("Horizontal"),0f,-Input.GetAxis("Vertical"));
+        if (moveDirection == Vector3.zero)
+        {
+            anim.SetBool("isWalking", false);
+        }
+        else
+        {
+            anim.SetBool("isWalking", true);
+        }
         characterController.SimpleMove(moveDirection*moveSpeed);
     }
 
