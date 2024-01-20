@@ -20,14 +20,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Vector3 moveDirection = new Vector3(-Input.GetAxis("Horizontal"),0f,-Input.GetAxis("Vertical"));
-        if (moveDirection == Vector3.zero)
-        {
-            anim.SetBool("isWalking", false);
-        }
-        else
-        {
-            anim.SetBool("isWalking", true);
-        }
+        bool isWalking = (moveDirection == Vector3.zero) ? false : true;
+        anim.SetBool("isWalking", isWalking);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -45,7 +39,6 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //Debug.DrawRay(ray.origin, ray.direction*500, Color.blue);
 
         if (Physics.Raycast(ray, out hit, 500, layerMask, QueryTriggerInteraction.Ignore))
         {
