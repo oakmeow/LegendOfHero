@@ -19,36 +19,42 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        Vector3 moveDirection = new Vector3(-Input.GetAxis("Horizontal"),0f,-Input.GetAxis("Vertical"));
-        bool isWalking = (moveDirection == Vector3.zero) ? false : true;
-        anim.SetBool("isWalking", isWalking);
-
-        if (Input.GetMouseButtonDown(0))
+        if (!GameManager.instance.GameOver)
         {
-            anim.Play("DoubleChop");
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            anim.Play("SpinAttack");
-        }
+            Vector3 moveDirection = new Vector3(-Input.GetAxis("Horizontal"), 0f, -Input.GetAxis("Vertical"));
 
-        characterController.SimpleMove(moveDirection*moveSpeed);
+            bool isWalking = (moveDirection == Vector3.zero) ? false : true;
+            anim.SetBool("isWalking", isWalking);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                anim.Play("DoubleChop");
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                anim.Play("SpinAttack");
+            }
+            characterController.SimpleMove(moveDirection * moveSpeed);
+        }
     }
 
     private void FixedUpdate()
     {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hit, 500, layerMask, QueryTriggerInteraction.Ignore))
+        if (!GameManager.instance.GameOver)
         {
-            if(hit.point != currentLookTarget)
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 500, layerMask, QueryTriggerInteraction.Ignore))
             {
-                currentLookTarget = hit.point;
+                if (hit.point != currentLookTarget)
+                {
+                    currentLookTarget = hit.point;
+                }
+                Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                Quaternion rotation = Quaternion.LookRotation(targetPosition - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 10 * Time.deltaTime);
             }
-            Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            Quaternion rotation = Quaternion.LookRotation(targetPosition - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 10*Time.deltaTime);
         }
     }
 }
