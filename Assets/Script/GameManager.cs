@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject[] spawnPoint;
     [SerializeField] GameObject tanker;
     [SerializeField] GameObject soldier;
+    [SerializeField] GameObject ranger;
     [SerializeField] TextMeshProUGUI leveltext;
     private int currentLevel;
     private float generateSpawnTime = 1f;
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     private List<EnemyHealth> enemies = new List<EnemyHealth>();
     private List<EnemyHealth> killEnemies = new List<EnemyHealth>();
+
+    [SerializeField] GameObject arrow;
 
     private void Awake()
     {
@@ -35,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //StartCoroutine(spawn());
+        StartCoroutine(spawn());
         currentLevel = 0;
     }
 
@@ -57,6 +60,14 @@ public class GameManager : MonoBehaviour
         get
         {
             return gameOver;
+        }
+    }
+
+    public GameObject Arrow
+    {
+        get
+        {
+            return arrow;
         }
     }
 
@@ -91,7 +102,7 @@ public class GameManager : MonoBehaviour
             {
                 int randomNumber = Random.Range(0, spawnPoint.Length);
                 GameObject spawnLocation = spawnPoint[randomNumber];
-                int randomEnemy = Random.Range(0, 2);
+                int randomEnemy = Random.Range(0, 3);
 
                 if (randomEnemy == 0)
                 {
@@ -100,6 +111,10 @@ public class GameManager : MonoBehaviour
                 if (randomEnemy == 1)
                 {
                     newEnemy = Instantiate(tanker) as GameObject;
+                }
+                if (randomEnemy == 2)
+                {
+                    newEnemy = Instantiate(ranger) as GameObject;
                 }
                 newEnemy.transform.position = spawnLocation.transform.position;
             }
