@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -10,14 +12,22 @@ public class PlayerHealth : MonoBehaviour
     private CharacterController characterController;
     private Animator anim;
     [SerializeField] private int currentHealth;
-    private AudioSource audio;
+    private AudioSource sound;
+    [SerializeField] private Slider healthSlider;
+    private ParticleSystem blood;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
-        audio = GetComponent<AudioSource>();
+        sound = GetComponent<AudioSource>();
         currentHealth = startHealth;
+        blood = GetComponentInChildren<ParticleSystem>();
+    }
+
+    private void Awake()
+    {
+        Assert.IsNotNull(healthSlider);
     }
 
     void Update()
@@ -42,8 +52,10 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth > 0)
         {
             anim.Play("Hurt");
+            blood.Play();
             currentHealth -= 10;
-            audio.PlayOneShot(audio.clip);
+            healthSlider.value = currentHealth;
+            sound.PlayOneShot(sound.clip);
             GameManager.instance.PlayerHit(currentHealth);
         }
         if (currentHealth <= 0)
@@ -55,6 +67,7 @@ public class PlayerHealth : MonoBehaviour
     private void KillPlayer()
     {
         GameManager.instance.PlayerHit(currentHealth);
+        blood.Play();
         anim.SetTrigger("HeroDie");
         characterController.enabled = false;
     }
