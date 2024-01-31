@@ -10,10 +10,13 @@ public class RangerAttack : MonoBehaviour
     private GameObject player;
     [SerializeField] private bool playerInRange;
     private EnemyHealth enemyHealth;
+    private GameObject arrow;
+    [SerializeField] Transform fireLocation;
 
     void Start()
     {
         player = GameManager.instance.Player;
+        arrow = GameManager.instance.Arrow;
         anim = GetComponent<Animator>();
         enemyHealth = GetComponent<EnemyHealth>();
         StartCoroutine(attack());
@@ -50,5 +53,13 @@ public class RangerAttack : MonoBehaviour
         Vector3 direction = (player.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*10f);
+    }
+
+    private void FireArrow()
+    {
+        GameObject newArrow = Instantiate(arrow) as GameObject;
+        newArrow.transform.position = fireLocation.position;
+        newArrow.transform.rotation = transform.rotation;
+        newArrow.GetComponent<Rigidbody>().velocity = transform.forward * 25f;
     }
 }
