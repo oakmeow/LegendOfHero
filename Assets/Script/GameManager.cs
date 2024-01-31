@@ -1,12 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
-    private bool gameOver = false;
+    [SerializeField] private bool gameOver = false;
     [SerializeField] GameObject player;
+    [SerializeField] GameObject[] spawnPoint;
+    [SerializeField] GameObject tanker;
+    [SerializeField] GameObject soldier;
+    [SerializeField] TextMeshProUGUI leveltext;
+    private int currentLevel;
+    private float generateSpawnTime = 1f;
+    private float currentSpawnTime = 0f;
+    private GameObject newEnemy;
+
+    private List<EnemyHealth> enemies = new List<EnemyHealth>();
+    private List<EnemyHealth> killEnemies = new List<EnemyHealth>();
 
     private void Awake()
     {
@@ -23,13 +35,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
+        //StartCoroutine(spawn());
+        currentLevel = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        currentSpawnTime += Time.deltaTime;
     }
 
     public GameObject Player
@@ -58,5 +70,50 @@ public class GameManager : MonoBehaviour
         {
             gameOver = true;
         }
+    }
+
+    public void RegisterEnemy(EnemyHealth enemy)
+    {
+        enemies.Add(enemy);
+    }
+
+    public void KillEnemy(EnemyHealth enemy)
+    {
+        killEnemies.Add(enemy);
+    }
+
+    IEnumerator spawn()
+    {
+        if (currentSpawnTime > generateSpawnTime)
+        {
+            currentSpawnTime = 0;
+            if (enemies.Count < currentLevel)
+            {
+                int randomNumber = Random.Range(0, spawnPoint.Length);
+                GameObject spawnLocation = spawnPoint[randomNumber];
+                int randomEnemy = Random.Range(0, 2);
+
+                if (randomEnemy == 0)
+                {
+                    newEnemy = Instantiate(soldier) as GameObject;
+                }
+                if (randomEnemy == 1)
+                {
+                    newEnemy = Instantiate(tanker) as GameObject;
+                }
+                newEnemy.transform.position = spawnLocation.transform.position;
+            }
+        }
+
+        if (killEnemies.Count == currentLevel)
+        {
+            enemies.Clear();
+            killEnemies.Clear();
+            yield return new WaitForSeconds(3f);
+            currentLevel++;
+            leveltext.text = "Level = " + currentLevel;
+        }
+        yield return null;
+        StartCoroutine(spawn());
     }
 }
