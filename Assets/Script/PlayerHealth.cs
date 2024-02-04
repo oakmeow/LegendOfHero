@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
     private AudioSource sound;
     [SerializeField] private Slider healthSlider;
     private ParticleSystem blood;
+    [SerializeField] AudioClip powerUpSound;
 
     void Start()
     {
@@ -77,6 +78,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 70)
         {
             CurrentHealth += 30;
+            sound.PlayOneShot(powerUpSound);
         }
         else if (currentHealth < startHealth)
         {
