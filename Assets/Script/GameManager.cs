@@ -23,13 +23,23 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject arrow;
 
+    // Health Power Up
+    [SerializeField] GameObject healthPowerUp;
+    [SerializeField] GameObject[] healthSpawnPoint;
+    [SerializeField] int maxPowerUp = 4;
+
+    private float powerUpSpawnTime = 1f;
+    private float currentPowerUpSpawnTime = 0f;
+    private int powerUp = 0;
+    private GameObject newPowerUp;
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
-        else if(instance != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
@@ -39,12 +49,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(spawn());
+        StartCoroutine(powerUpSpawn());
         currentLevel = 0;
     }
 
     void Update()
     {
         currentSpawnTime += Time.deltaTime;
+        currentPowerUpSpawnTime += Time.deltaTime;
     }
 
     public GameObject Player
@@ -93,6 +105,11 @@ public class GameManager : MonoBehaviour
         killEnemies.Add(enemy);
     }
 
+    public void RegisterPowerUp()
+    {
+        powerUp++;
+    }
+
     IEnumerator spawn()
     {
         if (currentSpawnTime > generateSpawnTime)
@@ -130,5 +147,22 @@ public class GameManager : MonoBehaviour
         }
         yield return null;
         StartCoroutine(spawn());
+    }
+
+    IEnumerator powerUpSpawn()
+    {
+        if (currentPowerUpSpawnTime > powerUpSpawnTime)
+        {
+            currentPowerUpSpawnTime = 0;
+            if (powerUp < maxPowerUp)
+            {
+                int randomNumber = Random.Range(0, healthSpawnPoint.Length);
+                GameObject spawnLocation = healthSpawnPoint[randomNumber];
+                newPowerUp = Instantiate(healthPowerUp) as GameObject;
+                newPowerUp.transform.position = spawnLocation.transform.position;
+            }
+        }
+        yield return null;
+        StartCoroutine(powerUpSpawn());
     }
 }
