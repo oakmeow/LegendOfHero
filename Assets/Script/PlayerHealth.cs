@@ -71,4 +71,32 @@ public class PlayerHealth : MonoBehaviour
         anim.SetTrigger("HeroDie");
         characterController.enabled = false;
     }
+
+    public void PowerHealth()
+    {
+        if (currentHealth <= 70)
+        {
+            CurrentHealth += 30;
+        }
+        else if (currentHealth < startHealth)
+        {
+            currentHealth = startHealth;
+        }
+        healthSlider.value = currentHealth;
+    }
+
+    public int CurrentHealth
+    {
+        get
+        {
+            return currentHealth;
+        }
+        set
+        {
+            if (value < 0)
+                currentHealth = 0;
+            else
+                currentHealth = value;
+        }
+    }
 }
