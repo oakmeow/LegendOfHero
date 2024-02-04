@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +16,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject soldier;
     [SerializeField] GameObject ranger;
     [SerializeField] TextMeshProUGUI leveltext;
+    [SerializeField] TextMeshProUGUI victoryText;
+    [SerializeField] TextMeshProUGUI defeatText;
     private int currentLevel;
+    private int finalLevel = 3;
     private float generateSpawnTime = 1f;
     private float currentSpawnTime = 0f;
     private GameObject newEnemy;
@@ -43,7 +49,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -92,6 +97,7 @@ public class GameManager : MonoBehaviour
         else
         {
             gameOver = true;
+            StartCoroutine(defeat());
         }
     }
 
@@ -137,7 +143,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (killEnemies.Count == currentLevel)
+        if (killEnemies.Count == currentLevel && currentLevel != finalLevel)
         {
             enemies.Clear();
             killEnemies.Clear();
@@ -145,8 +151,28 @@ public class GameManager : MonoBehaviour
             currentLevel++;
             leveltext.text = "Level = " + currentLevel;
         }
+        if (killEnemies.Count == finalLevel)
+        {
+            StartCoroutine(victory());
+        }
         yield return null;
         StartCoroutine(spawn());
+    }
+
+    IEnumerator victory()
+    {
+        //victoryText.enabled = true;
+        victoryText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    IEnumerator defeat()
+    {
+        //defeatText.enabled = true;
+        defeatText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("MainMenu");
     }
 
     IEnumerator powerUpSpawn()
